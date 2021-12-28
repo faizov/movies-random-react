@@ -2,15 +2,18 @@ import netflixIcon from "../assets/netflix.png";
 import shapeIcon from "../assets/shape.png";
 import imbdIcon from "../assets/imbd.png";
 
-export const Content = ({ data, image }) => {
-  console.log(data);
+export const Content = ({ data, images }) => {
+  const linkYoutube = data.youtube_trailer_key
+    ? "https://www.youtube.com/watch?v=" + data.youtube_trailer_key
+    : null;
+
   return (
     <div className="content">
       <div className="content-poster">
         <div
           className="content-poster-img"
           style={{
-            backgroundImage: `url(${image})`
+            backgroundImage: `url(${images.poster})`
           }}
         ></div>
         <div className="content-poster-btn-watch">
@@ -36,15 +39,17 @@ export const Content = ({ data, image }) => {
         <h1 className="content-about-title">{data.title}</h1>
 
         <div className="content-about-details">
-          <span>10/25/2019 </span>
+          {data.release_date && <span>{data.release_date}</span>}
           <span>Comedy, Crime</span>
           <span>{data.runtime}m</span>
-          <a href="#">
-            <span className="play">
-              <img src={shapeIcon} alt="play" />
-              Play Trailer
-            </span>
-          </a>
+          {linkYoutube && (
+            <a href={linkYoutube} target="_blank" rel="noreferrer">
+              <span className="play">
+                <img src={shapeIcon} alt="play" />
+                Play Trailer
+              </span>
+            </a>
+          )}
         </div>
 
         <div className="content-about-imbdscore">
@@ -57,20 +62,7 @@ export const Content = ({ data, image }) => {
         </div>
         <div className="content-about-overview">
           <h3>Overview</h3>
-          <p>
-            Istanbul Police Department homicide detectives encounter a murder
-            nothing like they’ve seen before. Commissioners Emin, Salih, Asuman
-            and deputy Alaattin begin investigating.But strange murders keep
-            happening. They don’t have any evidence or any clues. Day by day,
-            tempers flare and the police chiefs grow annoyed.As the murders keep
-            piling up, the public’s interest rises. The pressure on Emin and his
-            colleagues get intense. At last, the chief of police assigns “crime
-            expert” Dizdar Koşu, who has recently come back from the US, to the
-            team. Overwhelmed with panic, pressure and disdain, Emin and his
-            friends try to solve the strangest series of murders with the most
-            unusual methods.This fast race against time immediately turns into a
-            tragicomedy.
-          </p>
+          <p>{data.description}</p>
         </div>
 
         <div className="content-about-director-writer">
