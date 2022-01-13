@@ -1,4 +1,4 @@
-import Logo from "../assets/logo.png";
+import Logo from '../assets/logo.png'
 
 export const Menu = () => {
   return (
@@ -15,7 +15,7 @@ export const Menu = () => {
             </a>
           </li>
           <li>
-            <a href="#">Tv Show</a>
+            <a href="#" className="disabled">Tv Show</a>
           </li>
         </ul>
       </div>

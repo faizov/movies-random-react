@@ -3,10 +3,10 @@ import shapeIcon from "../assets/shape.png";
 import imbdIcon from "../assets/imbd.png";
 
 export const Content = ({ data, images }) => {
-  const linkYoutube = data.youtube_trailer_key
-    ? "https://www.youtube.com/watch?v=" + data.youtube_trailer_key
-    : null;
 
+  const linkYoutube = data.youtube_trailer_key ? "https://www.youtube.com/watch?v=" + data.youtube_trailer_key : null;
+  console.log(`data`, data)
+  
   return (
     <div className="content">
       <div className="content-poster">
@@ -66,23 +66,19 @@ export const Content = ({ data, images }) => {
         </div>
 
         <div className="content-about-director-writer">
-          <div className="content-about-director-writer-person">
-            <p>Ali Atay</p>
-            <p>Director, Writer</p>
-          </div>
-          <div className="content-about-director-writer-person">
-            <p>Aziz Kedi</p>
-            <p>Writer</p>
-          </div>
-          <div className="content-about-director-writer-person">
-            <p>Feyyaz Yiğit</p>
-            <p>Writer</p>
-          </div>
+          {data.directors && data.directors.map((item: string) => {
+            return (
+              <div className="content-about-director-writer-person" key={item}>
+                <p>{item}</p>
+                <p>Director, Writer</p>
+              </div>
+            )
+          })}
         </div>
 
-        <hr />
+        {/* <hr />
 
-        <div className="content-about-cast">
+         <div className="content-about-cast">
           <div className="content-about-cast-person">
             <img
               src="https://sun9-87.userapi.com/impg/zArwPgV4b6fMuK27C3qVdn5_fQte1g6qqhumKQ/2EyxVIPadgE.jpg?size=960x960&quality=96&sign=82edf7d3268e7e3c7ac998b4d59d252a&type=album"
@@ -115,7 +111,7 @@ export const Content = ({ data, images }) => {
             <p>Feyyaz Yiğit</p>
             <p>Writer</p>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -22,7 +22,7 @@ export default function App() {
         apiKey
       )
         .then((response) => response.json())
-        .then((data) => setId(data.movie_results.[Math.floor(Math.random() * data.movie_results.length)].imdb_id))
+        .then((data) => setId(data.movie_results[Math.floor(Math.random() * data.movie_results.length)].imdb_id))
     }
     getMoviesId()
   }, []);
@@ -43,7 +43,7 @@ export default function App() {
     }
     getData()
   }, [id]);
-  console.log(data)
+
   return (
     <>
       <Menu />
