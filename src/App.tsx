@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Content, Menu } from "./components";
 import "./style.scss";
+import { TData } from './types'
 
 const apiKey = {
     method: "GET",
@@ -33,21 +34,38 @@ export default function App() {
       apiKey
       )
       .then((response) => response.json())
-      .then((data) => setData(data))
-      
-      await fetch(`https://movies-tvshows-data-imdb.p.rapidapi.com/?type=get-movies-images-by-imdb&imdb=${id}`,
-      apiKey
-      )
-      .then((response) => response.json())
-      .then((images) => setImages(images))
+      .then((data) => {
+        const obj: TData = {
+          title: data.title,
+          description: data.description,
+          directors: data.directors,
+          release_date: data.release_date,
+          runtime: data.runtime,
+          imdb_rating: data.imdb_rating,
+          youtube_trailer_key: data.youtube_trailer_key,
+        }
+        setData(obj);
+      }).catch((err) => {
+        console.error(err);
+      });
+      if (data) {
+        fetch(`https://movies-tvshows-data-imdb.p.rapidapi.com/?type=get-movies-images-by-imdb&imdb=${id}`,
+          apiKey
+        )
+          .then((response) => response.json())
+          .then((images) => setData(prevValues => {
+            return { ...prevValues, poster: images.poster}
+          }))
+      }
+
     }
     getData()
   }, [id]);
-
+  console.log(data)
   return (
     <>
       <Menu />
-      <Content data={data} images={images}/>
+      {data ? <Content {...data} /> : "Загрузка..."}
     </>
   );
 }

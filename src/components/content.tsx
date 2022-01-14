@@ -2,18 +2,27 @@ import netflixIcon from "../assets/netflix.png";
 import shapeIcon from "../assets/shape.png";
 import imbdIcon from "../assets/imbd.png";
 
-export const Content = ({ data, images }) => {
+interface IMovies {
+  title: string,
+  description: string,
+  directors: string,
+  release_date: string,
+  runtime: number,
+  imdb_rating: string,
+  youtube_trailer_key: string,
+  poster: string
+}
 
-  const linkYoutube = data.youtube_trailer_key ? "https://www.youtube.com/watch?v=" + data.youtube_trailer_key : null;
-  console.log(`data`, data)
-  
+export const Content = ({ title, description, directors, release_date, runtime, imdb_rating, youtube_trailer_key, poster }: IMovies) => {
+  const linkYoutube = youtube_trailer_key ? "https://www.youtube.com/watch?v=" + youtube_trailer_key : null;
+
   return (
     <div className="content">
       <div className="content-poster">
         <div
           className="content-poster-img"
           style={{
-            backgroundImage: `url(${images.poster})`
+            backgroundImage: `url(${poster})`
           }}
         ></div>
         <div className="content-poster-btn-watch">
@@ -36,12 +45,12 @@ export const Content = ({ data, images }) => {
       </div>
 
       <div className="content-about">
-        <h1 className="content-about-title">{data.title}</h1>
+        <h1 className="content-about-title">{title}</h1>
 
         <div className="content-about-details">
-          {data.release_date && <span>{data.release_date}</span>}
+          {release_date && <span>{release_date}</span>}
           <span>Comedy, Crime</span>
-          <span>{data.runtime}m</span>
+          <span>{runtime}m</span>
           {linkYoutube && (
             <a href={linkYoutube} target="_blank" rel="noreferrer">
               <span className="play">
@@ -57,16 +66,16 @@ export const Content = ({ data, images }) => {
             <img src={imbdIcon} alt="imbd" />
           </button>
           <h3>
-            <span>{data.imdb_rating}</span>/10
+            <span>{imdb_rating}</span>/10
           </h3>
         </div>
         <div className="content-about-overview">
           <h3>Overview</h3>
-          <p>{data.description}</p>
+          <p>{description}</p>
         </div>
 
         <div className="content-about-director-writer">
-          {data.directors && data.directors.map((item: string) => {
+          {directors && directors.map((item: string) => {
             return (
               <div className="content-about-director-writer-person" key={item}>
                 <p>{item}</p>
