@@ -2,20 +2,13 @@ import netflixIcon from "../assets/netflix.png";
 import shapeIcon from "../assets/shape.png";
 import imbdIcon from "../assets/imbd.png";
 
-interface IMovies {
-  title: string,
-  description: string,
-  directors: string,
-  release_date: string,
-  runtime: number,
-  imdb_rating: string,
-  youtube_trailer_key: string,
-  poster: string
-}
+import { TMovies } from '../types'
 
-export const Content = ({ title, description, directors, release_date, runtime, imdb_rating, youtube_trailer_key, poster }: IMovies) => {
-  const linkYoutube = youtube_trailer_key ? "https://www.youtube.com/watch?v=" + youtube_trailer_key : null;
 
+
+export const Content = ({ title, imDbRating, year, poster }: TMovies) => {
+  // const linkYoutube = youtube_trailer_key ? "https://www.youtube.com/watch?v=" + youtube_trailer_key : null;
+console.log('poster :>> ', poster);
   return (
     <div className="content">
       <div className="content-poster">
@@ -47,7 +40,7 @@ export const Content = ({ title, description, directors, release_date, runtime, 
       <div className="content-about">
         <h1 className="content-about-title">{title}</h1>
 
-        <div className="content-about-details">
+        {/* <div className="content-about-details">
           {release_date && <span>{release_date}</span>}
           <span>Comedy, Crime</span>
           <span>{runtime}m</span>
@@ -59,30 +52,30 @@ export const Content = ({ title, description, directors, release_date, runtime, 
               </span>
             </a>
           )}
-        </div>
+        </div> */}
 
         <div className="content-about-imbdscore">
           <button>
             <img src={imbdIcon} alt="imbd" />
           </button>
           <h3>
-            <span>{imdb_rating}</span>/10
+            <span>{imDbRating}</span>/10
           </h3>
         </div>
         <div className="content-about-overview">
           <h3>Overview</h3>
-          <p>{description}</p>
+          {/* <p>{description}</p> */}
         </div>
 
         <div className="content-about-director-writer">
-          {directors && directors.map((item: string) => {
+          {/* {directors && directors.map((item: string) => {
             return (
               <div className="content-about-director-writer-person" key={item}>
                 <p>{item}</p>
                 <p>Director, Writer</p>
               </div>
             )
-          })}
+          })} */}
         </div>
 
         {/* <hr />

@@ -1,71 +1,57 @@
 import { useState, useEffect } from "react";
 import { Content, Menu } from "./components";
-import "./style.scss";
-import { TData } from './types'
+import "./style.scss";  
+import { TMovies, TPoster } from './types'
 
-const apiKey = {
-    method: "GET",
-    "headers": {
-      "x-rapidapi-host": "movies-tvshows-data-imdb.p.rapidapi.com",
-      "x-rapidapi-key": "ec4454b92amsh7588ecca818cd9cp17b177jsn3ba1009b4388"
-    }
-}
+import topMovies from './top250.json'
+
+const aipiMovieId = `https://imdb-api.com/en/API/Posters/${process.env.REACT_APP_API_TOKEN}/`
 
 export default function App() {
-  const [id, setId] = useState('');
-  const [data, setData] = useState({});
-  const [images, setImages] = useState('');
+  const [randomMovie, setRandomMovie] = useState<TMovies>();
+  const [id, setId] = useState<string | undefined>();
+  const [poster, setPoster] = useState<string>()
 
   useEffect(() => {
-    const getMoviesId = () => {
-      fetch(
-        "https://movies-tvshows-data-imdb.p.rapidapi.com/?type=get-random-movies&page=1",
-        apiKey
-      )
-        .then((response) => response.json())
-        .then((data) => setId(data.movie_results[Math.floor(Math.random() * data.movie_results.length)].imdb_id))
+    const movie = topMovies.items[Math.floor(Math.random() * 250)]
+
+    const obj = {
+      id: movie.id,
+      title: movie.title,
+      year: movie.year,
+      imDbRating: movie.imDbRating,
     }
-    getMoviesId()
-  }, []);
+
+    if (movie) {
+      setRandomMovie(obj)
+      setId(movie.id)
+    }
+  }, [])
+
+  
 
   useEffect(() => {
-    const getData = async () => {
-      fetch(`https://movies-tvshows-data-imdb.p.rapidapi.com/?type=get-movie-details&imdb=${id}`,
-      apiKey
-      )
-      .then((response) => response.json())
+    fetch(aipiMovieId+id)
+      .then((response) => {
+        return response.json();
+      })
       .then((data) => {
-        const obj: TData = {
-          title: data.title,
-          description: data.description,
-          directors: data.directors,
-          release_date: data.release_date,
-          runtime: data.runtime,
-          imdb_rating: data.imdb_rating,
-          youtube_trailer_key: data.youtube_trailer_key,
-        }
-        setData(obj);
-      }).catch((err) => {
-        console.error(err);
+        setPoster(data.posters[0].link)
+      })
+      .catch((error) => {
+        console.error('error :>> ', error);
       });
-      if (data) {
-        fetch(`https://movies-tvshows-data-imdb.p.rapidapi.com/?type=get-movies-images-by-imdb&imdb=${id}`,
-          apiKey
-        )
-          .then((response) => response.json())
-          .then((images) => setData(prevValues => {
-            return { ...prevValues, poster: images.poster}
-          }))
-      }
+  }, [id])
 
-    }
-    getData()
-  }, [id]);
-  console.log(data)
+  const obj = {
+    ...randomMovie,
+    poster: poster
+  }
+
   return (
     <>
       <Menu />
-      {data ? <Content {...data} /> : "Загрузка..."}
+      {randomMovie ? <Content {...obj} /> : "Загрузка..."}
     </>
   );
 }
