@@ -8,7 +8,7 @@ import { TMovies } from '../types'
 
 export const Content = ({ title, imDbRating, year, poster }: TMovies) => {
   // const linkYoutube = youtube_trailer_key ? "https://www.youtube.com/watch?v=" + youtube_trailer_key : null;
-console.log('poster :>> ', poster);
+
   return (
     <div className="content">
       <div className="content-poster">
